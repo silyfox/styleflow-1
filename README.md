@@ -1,12 +1,19 @@
-Neural style transfer with Keras, adapted from 
-https://github.com/fchollet/keras/blob/master/examples/neural_style_transfer.py
+# Implementations of Neural Style Transfer in TF and Keras
+
+
+neural_style contains a perliminary neural style algorithm adapted from https://github.com/anishathalye/neural-style
+
+Example Run:
+python neural_style.py --content ./images/input.png --styles ./images/style.jpg --output ./images/output.jpg --iterations 10
+
+neural_transfer implements a the algorithm with Keras, adapted from the Keras examples
 
 Changing nature of content loss and style loss from original implementation
 
 Run the script with:
 python neural_style_transfer.py path_to_your_base_image.jpg path_to_your_reference.jpg prefix_for_results
 
-e.g.:
+Example Run:
 python neural_transfer_02.py ~/Downloads/base1.jpg ~/Downloads/ref1.jpg neural_test_
 
 Optional parameters:
@@ -46,3 +53,4 @@ keeping the generated image close enough to the original one.
 
 # References
     - [A Neural Algorithm of Artistic Style](http://arxiv.org/abs/1508.06576)
+    - [Deep Photo Style Transfer](https://arxiv.org/abs/1703.07511)
