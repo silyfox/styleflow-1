@@ -1,4 +1,4 @@
-# Implementations of Neural Style Transfer in TF and Keras
+# Implementations of Neural Style Transfer in TF/Keras
 
 
 neural_style contains a perliminary neural style algorithm adapted from https://github.com/anishathalye/neural-style
