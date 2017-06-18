@@ -27,8 +27,8 @@ Optional parameters:
 Style transfer consists in generating an image with the same "content" as a base image, but with the "style" of a different picture (typically artistic).
 
 Starts with the VGG19 model without top/FC layers. 
-Content loss is derived from higher level features - block5_conv2 - of the base image
-Style loss is based on lower level features - block1_conv1', 'block2_conv1', 'block3_conv1', 'block4_conv1', 'block5_conv1' - of the reference image
+Content loss is derived from higher level features - block5_conv2 - of the base image.
+Style loss is based on lower level features - block1_conv1', 'block2_conv1', 'block3_conv1', 'block4_conv1', 'block5_conv1' - of the reference image.
 To transfer the style of an artwork a(ref image) onto a photograph p (base image), we synthesize a new image that 
 simultaneously matches the content representation of p and the style representation of a.
 
