@@ -46,8 +46,7 @@ scales (fairly large scales --defined by the depth of the layer considered).
 image (extracted from a deep layer) and the features of the combination image,
 keeping the generated image close enough to the original one.
 
-# References
-    - [A Neural Algorithm of Artistic Style](http://arxiv.org/abs/1508.06576)
+
 '''
 
 from keras.preprocessing.image import load_img, img_to_array
