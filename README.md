@@ -6,7 +6,7 @@ neural_style contains a perliminary neural style algorithm adapted from https://
 Example Run:
 python neural_style.py --content ./images/input.png --styles ./images/style.jpg --output ./images/output.jpg --iterations 10
 
-neural_transfer implements a the algorithm with Keras, adapted from the Keras examples
+neural_transfer implements the algorithm in reference [1] with Keras, adapted from the Keras examples
 
 Changing nature of content loss and style loss from original implementation
 
@@ -32,12 +32,10 @@ Style loss is based on lower level features - block1_conv1', 'block2_conv1', 'bl
 To transfer the style of an artwork a(ref image) onto a photograph p (base image), we synthesize a new image that 
 simultaneously matches the content representation of p and the style representation of a.
 
-This is achieved through the optimization of a loss function
-that has 3 components: "style loss", "content loss",
-and "total variation loss":
+This is achieved through the optimization of a loss function that has 3 components: "style loss", "content loss" and "total variation loss":
 
 - The total variation loss imposes local spatial continuity between
-the pixels of the combination image, giving it visual coherence.
+the pixels of the combination image, giving it visual coherence. It looks at the L2 norm of the sub image with when shifted by a single pixel to the left and down.
 
 - The style loss is where the deep learning keeps in --that one is defined
 using a deep convolutional neural network. Precisely, it consists in a sum of
@@ -50,6 +48,8 @@ scales (fairly large scales --defined by the depth of the layer considered).
  - The content loss is a L2 distance between the features of the base
 image (extracted from a deep layer) and the features of the combination image,
 keeping the generated image close enough to the original one.
+
+Iteration time depends on the size of the target image chosen. For a target width of 400, it takes ~20 seconds to run a single iteration on a p2 instance with GPU and ~300 seconds to run on OSX/MBP. When raising the traget width to 800, it takes ~1500 seconds to run on OSX/MBP
 
 # References
     - [A Neural Algorithm of Artistic Style](http://arxiv.org/abs/1508.06576)
