@@ -59,7 +59,7 @@ from scipy.optimize import fmin_l_bfgs_b
 import time
 import argparse
 
-TARGET_WIDTH = 800
+TARGET_WIDTH = 200
 
 def parse_and_set_arguments():
     
