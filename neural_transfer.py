@@ -231,10 +231,12 @@ if __name__ == '__main__':
 
     # combine the three loss functions (style loss, aux loss and total variational loss) into a single scalar
     loss = K.variable(0.)
+    
     layer_features = outputs_dict['block5_conv2']
     base_image_features = layer_features[0, :, :, :]
     combination_features = layer_features[2, :, :, :]
-    loss += content_weight * content_loss(base_image_features, combination_features)
+    content_loss = content_weight * content_loss(base_image_features, combination_features)
+    
     feature_layers = ['block1_conv1', 'block2_conv1', 'block3_conv1', 'block4_conv1', 'block5_conv1']
     sl = 0.0
     for layer_name in feature_layers:
@@ -242,8 +244,11 @@ if __name__ == '__main__':
         style_reference_features = layer_features[1, :, :, :]
         combination_features = layer_features[2, :, :, :]
         sl += style_loss(style_reference_features, combination_features)
-    loss += (style_weight / len(feature_layers))*sl
-    loss += total_variation_weight * total_variation_loss(combination_image)
+    style_loss = (style_weight / len(feature_layers))*sl
+    
+    variation_Loss = total_variation_weight * total_variation_loss(combination_image)
+    # compute total loss
+    loss = content_loss + style_loss + variation_Loss 
 
     # get the gradients of the generated image wrt the loss
     grads = K.gradients(loss, combination_image)
@@ -265,14 +270,14 @@ if __name__ == '__main__':
     x = preprocess_image(base_image_path)
 
     for i in range(iterations):
-        print('Start of iteration', i)
+        print 'Start of iteration', i
         start_time = time.time()
         x, min_val, info = fmin_l_bfgs_b(evaluator.loss, x.flatten(), fprime=evaluator.grads, maxfun=20)
-        print('Current loss value:', min_val)
+        print 'Current loss value:', min_val
         # save current generated image
         img = deprocess_image(x.copy())
         fname = result_prefix + '_at_iteration_%d.png' % i
         imsave(fname, img)
         end_time = time.time()
-        print('Image saved as', fname)
-        print('Iteration %d completed in %ds' % (i, end_time - start_time))
+        print 'Image saved as', fname
+        print 'Iteration ', str(i), 'completed in ', str(end_time - start_time), 'seconds'
