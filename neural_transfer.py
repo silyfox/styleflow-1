@@ -28,8 +28,7 @@ To transfer the style of an artwork a(ref image) onto a photograph p (base image
 simultaneously matches the content representation of p and the style representation of a.
 
 This is achieved through the optimization of a loss function
-that has 3 components: "style loss", "content loss",
-and "total variation loss":
+that has 3 components: "style loss", "content loss", and "total variation loss":
 
 - The total variation loss imposes local spatial continuity between
 the pixels of the combination image, giving it visual coherence.
@@ -46,7 +45,12 @@ scales (fairly large scales --defined by the depth of the layer considered).
 image (extracted from a deep layer) and the features of the combination image,
 keeping the generated image close enough to the original one.
 
+Each iteration on the combination image is an iteration on the nonlinear optimizer to get the lowest loss given the input base image, the loss function
+and the derivative/gradient (wrt to the combination image).  
 
+Uses the scipy implementation of the BFGS optimizer 
+https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.optimize.fmin_l_bfgs_b.html
+https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
 '''
 
 from keras.preprocessing.image import load_img, img_to_array
@@ -251,6 +255,7 @@ if __name__ == '__main__':
     loss = content_loss + style_loss + variation_Loss 
 
     # get the gradients of the generated image wrt the loss
+    # gets gradient of combination_image (variable) wrt to the loss
     grads = K.gradients(loss, combination_image)
 
     outputs = [loss]
@@ -272,6 +277,8 @@ if __name__ == '__main__':
     for i in range(iterations):
         print 'Start of iteration', i
         start_time = time.time()
+        # returns the x that iteratively minimizes the loss function based on non linear optimization 
+        # function given loss functions derivatives (gradients)
         x, min_val, info = fmin_l_bfgs_b(evaluator.loss, x.flatten(), fprime=evaluator.grads, maxfun=20)
         print 'Current loss value:', min_val
         # save current generated image
