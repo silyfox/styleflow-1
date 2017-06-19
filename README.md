@@ -49,8 +49,11 @@ scales (fairly large scales --defined by the depth of the layer considered).
 image (extracted from a deep layer) and the features of the combination image,
 keeping the generated image close enough to the original one.
 
-Iteration time depends on the size of the target image chosen. For a target width of 400, it takes ~20 seconds to run a single iteration on a p2 instance with the K80 GPU and ~300 seconds to run on i7/CPU. When raising the traget width to 800, it takes ~1500 seconds to run on i7/CPU
+Each iteration on the combination image is an iteration on the nonlinear optimizer to get the lowest loss given the input base image, the loss function
+and the derivative/gradient (wrt to the combination image). Uses the scipy implementation of the BFGS optimizer. Iteration time depends on the size of the target image chosen. For a target width of 400, it takes ~20 seconds to run a single iteration on a p2 instance with the K80/GPU and ~300 seconds to run on i7/CPU. When raising the traget width to 800, it takes ~1500 seconds to run on i7/CPU
 
 # References
     - [A Neural Algorithm of Artistic Style](http://arxiv.org/abs/1508.06576)
     - [Deep Photo Style Transfer](https://arxiv.org/abs/1703.07511)
+    - https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.optimize.fmin_l_bfgs_b.html
+    - https://en.wikipedia.org/wiki/Broyden%E2%80%93Fletcher%E2%80%93Goldfarb%E2%80%93Shanno_algorithm
