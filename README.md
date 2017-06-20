@@ -53,6 +53,11 @@ keeping the generated image close enough to the original one.
 Each iteration on the combination image is an iteration on the nonlinear optimizer to get the lowest loss given the input base image, the loss function
 and the derivative/gradient (wrt to the combination image). Uses the scipy implementation of the BFGS optimizer. Iteration time depends on the size of the target image chosen. For a target width of 400, it takes ~20 seconds to run a single iteration on a p2 instance with the K80/GPU and ~300 seconds to run on i7/CPU. When raising the traget width to 800, it takes ~1500 seconds to run on i7/CPU
 
+
+# Example
+
+The GIF aninmation above is created using 10 iterations of the BFGS optimizer using the VGG19 model using base5.jpg as the base image and the ref6.jpg ('woman reading by Picasso (1935) ') as the reference image. You can see that on continued interations, you see more vertical structure and red and magenta hues in the resulting combination image that are picked up from the reference image.
+
 # References
     - [A Neural Algorithm of Artistic Style](http://arxiv.org/abs/1508.06576)
     - [Deep Photo Style Transfer](https://arxiv.org/abs/1703.07511)
