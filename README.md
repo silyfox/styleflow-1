@@ -1,9 +1,10 @@
 # Implementations of Neural Style Transfer in TF/Keras
 
 
+![alt text](https://github.com/xuberance137/styleflow/blob/master/remote/b5r6_animation.gif)
+
 # Abstract
 
-![alt text](https://github.com/xuberance137/styleflow/blob/master/remote/b5r6_animation.gif)
 
 neural_transfer implements the algorithm in reference [1] with Keras, adapted from the Keras examples
 
