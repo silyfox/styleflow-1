@@ -1,15 +1,13 @@
 # Implementations of Neural Style Transfer in TF/Keras
 
+
+# Abstract
+
 ![alt text](https://github.com/xuberance137/styleflow/blob/master/remote/b5r6_animation.gif)
-
-neural_style contains a perliminary neural style algorithm adapted from https://github.com/anishathalye/neural-style
-
-Example Run:
-python neural_style.py --content ./images/input.png --styles ./images/style.jpg --output ./images/output.jpg --iterations 10
 
 neural_transfer implements the algorithm in reference [1] with Keras, adapted from the Keras examples
 
-Changing nature of content loss and style loss from original implementation
+Changing the nature of content loss and style loss from original implementation for more aggressive styling, adding additional iteration steps for further optimization.
 
 Run the script with:
 python neural_style_transfer.py path_to_your_base_image.jpg path_to_your_reference.jpg prefix_for_results
@@ -20,8 +18,13 @@ python neural_transfer_02.py ~/Downloads/base1.jpg ~/Downloads/ref1.jpg neural_t
 Optional parameters:
 --iter, To specify the number of iterations the style transfer takes place (Default is 10)
 --content_weight, The weight given to the content loss (Default is 0.025)
---style_weight, The weight given to the style loss (Default is 1.0)
+--style_weight, The weight given to the style loss (Default is 2.0)
 --tv_weight, The weight given to the total variation loss (Default is 1.0)
+
+neural_style contains a perliminary neural style algorithm adapted from https://github.com/anishathalye/neural-style
+
+Example Run:
+python neural_style.py --content ./images/input.png --styles ./images/style.jpg --output ./images/output.jpg --iterations 10
 
 # Details
 
