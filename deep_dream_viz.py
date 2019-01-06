@@ -20,6 +20,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse
 import scipy
+import imageio
 
 TEST_MODEL = False
 IMG_SIZE = 100
@@ -51,7 +52,9 @@ def resize_img(img, size):
 
 def save_img(img, fname):
 	pil_img = deprocess_image(np.copy(img))
-	scipy.misc.imsave(fname, pil_img)
+	#scipy.misc.imsave(fname, pil_img)
+	imageio.imwrite(fname, pil_img)
+
 
 def preprocess_image(image_path):
 	# Util function to open, resize and format picture into appropriate tensors.
@@ -130,7 +133,7 @@ def gradient_ascent(x, generate_gradients, iterations, step, max_loss=None):
 
 	return x
 
-def generate_dream(img, model, layer_contributions, iterations, num_octave, octave_scale, gradient_step, max_loss):
+def generate_dream(img, base_image_name, model, layer_contributions, iterations, num_octave, octave_scale, gradient_step, max_loss):
 	
 	#construct loss
 	layer_dict = dict([layer.name, layer] for layer in model.layers)
@@ -185,9 +188,9 @@ def generate_dream(img, model, layer_contributions, iterations, num_octave, octa
 		lost_detail = same_size_original - upscaled_shrunk_original_img
 		img += lost_detail
 		shrunk_original_img = resize_img(original_img, shape)
-		save_img(img, fname='./dreams/dream_at_scale_'+str(shape)+'.png')
+		save_img(img, fname='./dreams/'+base_image_name.split('/')[-1][:-4]+'_dream_at_scale_'+str(shape)+'.png')
 
-	save_img(img, fname='./dreams/final_dream.png')
+	save_img(img, fname='./dreams/'+base_image_name.split('/')[-1][:-4]+'_final_dream.png')
 
 
 '''
@@ -208,9 +211,9 @@ if __name__ == '__main__':
 	gradient_step = 0.01
 	num_octave = 7 # scales at which gradient ascent is run
 	octave_scale = 1.4 # ratio between scales (sq rt of 2)
-	iterations = 20 #number of steps
-	max_loss = 10.0
-	base_image = './images/IMG_2205.jpg'
+	iterations = 100 #number of steps
+	max_loss = 30.0 #either max out the number of iterations or hit the max loss and break
+	base_image_name = './images/IMG_2205.jpg'
 
 	# disable training specific operations
 	K.set_learning_phase(0)
@@ -229,7 +232,7 @@ if __name__ == '__main__':
 		print('Predicted:', decode_predictions(preds, top=5)[0])
 
 	else:
-		img = preprocess_image(base_image)
-		dream = generate_dream(img, model, layer_contributions, iterations, num_octave, octave_scale, gradient_step, max_loss)
+		img = preprocess_image(base_image_name)
+		dream = generate_dream(img, base_image_name, model, layer_contributions, iterations, num_octave, octave_scale, gradient_step, max_loss)
 
 
